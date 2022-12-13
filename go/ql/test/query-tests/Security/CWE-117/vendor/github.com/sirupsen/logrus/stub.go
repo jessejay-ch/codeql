@@ -165,6 +165,12 @@ func Infof(_ string, _ ...interface{}) {}
 
 func Infoln(_ ...interface{}) {}
 
+type JSONFormatter struct {
+
+}
+
+func (_ *JSONFormatter) Format(_ *Entry) ([]byte, error)
+
 type Level uint32
 
 func (_ Level) MarshalText() ([]byte, error) {
@@ -343,6 +349,14 @@ func Print(_ ...interface{}) {}
 func Printf(_ string, _ ...interface{}) {}
 
 func Println(_ ...interface{}) {}
+
+func SetFormatter(_ Formatter) {}
+
+type TextFormatter struct {
+
+}
+
+func (_ *TextFormatter) Format(_ *Entry) ([]byte, error)
 
 func Trace(_ ...interface{}) {}
 
