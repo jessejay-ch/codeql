@@ -1,3 +1,0 @@
-name: integrationtest-annotation-id-consistency
-dependencies:
-  codeql/java-all: "*"
