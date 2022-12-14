@@ -1,8 +1,3 @@
 name: integrationtest-annotation-id-consistency
 dependencies:
-  codeql/java-all: '*'
-  codeql/java-tests: '*'
-  codeql/java-queries: '*'
-dataExtensions:
-  ext/*.model.yml
-
+  codeql/java-all: "*"
