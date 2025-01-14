@@ -120,9 +120,6 @@ module DomBasedXss {
     WriteUrlSink() { super.isXssSink() }
   }
 
-  /** DEPRECATED: Alias for `WriteUrlSink`. */
-  deprecated class WriteURLSink = WriteUrlSink;
-
   /**
    * An expression whose value is interpreted as HTML or CSS
    * and may be inserted into the DOM.
@@ -334,8 +331,15 @@ module DomBasedXss {
     isOptionallySanitizedEdgeInternal(_, node)
   }
 
-  /** A source of remote user input, considered as a flow source for DOM-based XSS. */
-  class RemoteFlowSourceAsSource extends Source instanceof RemoteFlowSource { }
+  /**
+   * DEPRECATED: Use `ActiveThreatModelSource` from Concepts instead!
+   */
+  deprecated class RemoteFlowSourceAsSource = ActiveThreatModelSourceAsSource;
+
+  /**
+   * An active threat-model source, considered as a flow source.
+   */
+  private class ActiveThreatModelSourceAsSource extends Source, ActiveThreatModelSource { }
 
   /**
    * A flow-label representing tainted values where the prefix is attacker controlled.

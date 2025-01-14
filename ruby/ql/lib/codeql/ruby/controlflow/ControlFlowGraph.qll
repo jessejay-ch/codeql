@@ -4,7 +4,7 @@ private import codeql.ruby.AST
 private import codeql.ruby.controlflow.BasicBlocks
 private import SuccessorTypes
 private import internal.ControlFlowGraphImpl as CfgImpl
-private import internal.Splitting
+private import internal.Splitting as Splitting
 private import internal.Completion
 
 /**
@@ -39,9 +39,6 @@ class CfgNode extends CfgImpl::Node {
 
   /** Gets the file of this control flow node. */
   final File getFile() { result = this.getLocation().getFile() }
-
-  /** DEPRECATED: Use `getAstNode` instead. */
-  deprecated AstNode getNode() { result = this.getAstNode() }
 
   /** Gets a successor node of a given type, if any. */
   final CfgNode getASuccessor(SuccessorType t) { result = super.getASuccessor(t) }
@@ -292,4 +289,11 @@ module SuccessorTypes {
   class ExitSuccessor extends SuccessorType, CfgImpl::TExitSuccessor {
     final override string toString() { result = "exit" }
   }
+}
+
+class Split = Splitting::Split;
+
+/** Provides different kinds of control flow graph splittings. */
+module Split {
+  class ConditionalCompletionSplit = Splitting::ConditionalCompletionSplit;
 }

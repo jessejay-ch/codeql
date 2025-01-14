@@ -7,15 +7,15 @@ private import codeql.ruby.DataFlow
 private import codeql.ruby.TaintTracking
 import SqlInjectionCustomizations::SqlInjection
 
-/**
- * A taint-tracking configuration for detecting SQL injection vulnerabilities.
- */
-class Configuration extends TaintTracking::Configuration {
-  Configuration() { this = "SqlInjectionConfiguration" }
+private module SqlInjectionConfig implements DataFlow::ConfigSig {
+  predicate isSource(DataFlow::Node source) { source instanceof Source }
 
-  override predicate isSource(DataFlow::Node source) { source instanceof Source }
+  predicate isSink(DataFlow::Node sink) { sink instanceof Sink }
 
-  override predicate isSink(DataFlow::Node sink) { sink instanceof Sink }
-
-  override predicate isSanitizer(DataFlow::Node node) { node instanceof Sanitizer }
+  predicate isBarrier(DataFlow::Node node) { node instanceof Sanitizer }
 }
+
+/**
+ * Taint-tracking for detecting SQL injection vulnerabilities.
+ */
+module SqlInjectionFlow = TaintTracking::Global<SqlInjectionConfig>;

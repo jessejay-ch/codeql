@@ -1,9 +1,9 @@
 import java
 import semmle.code.java.security.LogInjectionQuery
-import TestUtilities.InlineFlowTest
+import utils.test.InlineFlowTest
 
 private class TestSource extends RemoteFlowSource {
-  TestSource() { this.asExpr().(MethodAccess).getMethod().hasName("source") }
+  TestSource() { this.asExpr().(MethodCall).getMethod().hasName("source") }
 
   override string getSourceType() { result = "test source" }
 }

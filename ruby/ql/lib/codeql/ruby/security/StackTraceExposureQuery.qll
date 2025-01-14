@@ -11,15 +11,15 @@ private import codeql.ruby.DataFlow
 private import codeql.ruby.TaintTracking
 private import StackTraceExposureCustomizations::StackTraceExposure
 
-/**
- * A taint-tracking configuration for detecting "stack trace exposure" vulnerabilities.
- */
-class Configuration extends TaintTracking::Configuration {
-  Configuration() { this = "StackTraceExposure" }
+private module StackTraceExposureConfig implements DataFlow::ConfigSig {
+  predicate isSource(DataFlow::Node source) { source instanceof Source }
 
-  override predicate isSource(DataFlow::Node source) { source instanceof Source }
+  predicate isSink(DataFlow::Node sink) { sink instanceof Sink }
 
-  override predicate isSink(DataFlow::Node sink) { sink instanceof Sink }
-
-  override predicate isSanitizer(DataFlow::Node node) { node instanceof Sanitizer }
+  predicate isBarrier(DataFlow::Node node) { node instanceof Sanitizer }
 }
+
+/**
+ * Taint-tracking for detecting "stack trace exposure" vulnerabilities.
+ */
+module StackTraceExposureFlow = TaintTracking::Global<StackTraceExposureConfig>;

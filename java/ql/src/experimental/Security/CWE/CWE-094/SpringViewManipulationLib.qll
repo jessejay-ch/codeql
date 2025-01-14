@@ -42,9 +42,9 @@ class PortletRenderRequestMethod extends Method {
  */
 module SpringViewManipulationConfig implements DataFlow::ConfigSig {
   predicate isSource(DataFlow::Node source) {
-    source instanceof RemoteFlowSource or
+    source instanceof ActiveThreatModelSource or
     source instanceof WebRequestSource or
-    source.asExpr().(MethodAccess).getMethod() instanceof PortletRenderRequestMethod
+    source.asExpr().(MethodCall).getMethod() instanceof PortletRenderRequestMethod
   }
 
   predicate isSink(DataFlow::Node sink) { sink instanceof SpringViewManipulationSink }
@@ -55,7 +55,7 @@ module SpringViewManipulationConfig implements DataFlow::ConfigSig {
     // a = "redirect:" + taint`
     // ```
     exists(AddExpr e, StringLiteral sl |
-      node.asExpr() = e.getControlFlowNode().getASuccessor*() and
+      node.asExpr() = e.getControlFlowNode().getASuccessor*().asExpr() and
       sl = e.getLeftOperand*() and
       sl.getValue().matches(["redirect:%", "ajaxredirect:%", "forward:%"])
     )
